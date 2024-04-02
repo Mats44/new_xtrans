@@ -210,7 +210,7 @@ def gui(parameter_dict):
 if __name__ == "__main__":
     # Get variables
     #struct_filename = "struct_params_1back_3front_air_water.xlsx"
-    struct_filename = "struct_params_3back_3front_air_water.xlsx"
+    struct_filename = "testing_3front_3back_air_water.xlsx"
     materials_data, parameter_dict = get_parameters(struct_filename)
     
     gui(parameter_dict)

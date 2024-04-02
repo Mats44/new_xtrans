@@ -1,0 +1,6 @@
+# Virtual Environment Files
+venv/
+__pycache__/
+
+# VS Code Workspace Settings
+.vscode/

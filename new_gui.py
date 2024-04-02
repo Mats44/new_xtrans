@@ -1,79 +1,11 @@
 import tkinter as tk
-import os as os
 from get_parameters import get_parameters, param_dict_extract
-from tkinter import filedialog
 
-def gui():
-        
-    # ==================================
-    # Initialize GUI
-    # ==================================
-    def initialize_gui():
-        # Default values for initializing the GUI
-        struct_filename = "struct_1front_1back_water_air.xlsx"
-        materials_data, parameter_dict = get_parameters(struct_filename)
-
-        return parameter_dict
+def gui(parameter_dict):
     
     # ==================================
-    # Menu and Button functions
+    # Initiating variables
     # ==================================
-    def open_file():
-        # Open the file dialog and get the selected file path
-        file_path = filedialog.askopenfilename(title="Open file", filetypes=(("Excel files", "*.xlsx"), ("All files", "*.*")))
-        
-        if file_path:  # Check if a file was selected
-            struct_filename = os.path.basename(file_path)
-            materials_data, parameter_dict = get_parameters(struct_filename)
-            
-            return parameter_dict
-    
-    def save_file():
-        pass
-    
-    def save_file_as():
-        pass
-    
-    def mechanical_impedances():
-        pass
-    
-    def electrical_impedances():
-        pass
-    
-    def transfer_functions():
-        pass
-    
-    # ==================================
-    # Create row and column layout
-    # ==================================
-    root = tk.Tk()
-    root.title("Layered Structure GUI")
-    root.geometry("1000x600")
-    current_row = 0 # Keep track of the current row
-    
-    parameter_dict = initialize_gui()
-    
-    # Menu
-    menu_bar = tk.Menu(root)
-
-    ## Create File menu
-    file_menu = tk.Menu(menu_bar, tearoff=0)
-    file_menu.add_command(label="Open", command=open_file)
-    file_menu.add_command(label="Save")
-    file_menu.add_command(label="Save as")
-    file_menu.add_separator()
-    file_menu.add_command(label="Exit", command=root.quit)
-    menu_bar.add_cascade(label="File", menu=file_menu)
-
-    ## Create Help menu
-    help_menu = tk.Menu(menu_bar, tearoff=0)
-    help_menu.add_command(label="About")
-    menu_bar.add_cascade(label="Help", menu=help_menu)
-
-    root.config(menu=menu_bar)
-    
-    # Extract and modify parameters from structure dictionary
-    
     (
         (
             f,
@@ -120,33 +52,62 @@ def gui():
         )
     ) = param_dict_extract(parameter_dict)
     
-    d_backing = ""  # The backing has infinite thickness
+    d_backing = "" # The backing has infinite thickness
     d_back_layers = [d * 1e3 for d in d_back_layers]
     d_piezo *= 1e3
     d_front_layers = [d * 1e3 for d in d_front_layers]
-    d_load = ""  # The load has infinite thickness
+    d_load = "" # The load has infinite thickness
 
     z_c_backing /= 1e6
     z_c_back_layers = [z_c / 1e6 for z_c in z_c_back_layers]
     z_c_piezo /= 1e6
     z_c_front_layers = [z_c / 1e6 for z_c in z_c_front_layers]
     z_c_load /= 1e6
-
+    
     h /= 1e9
-
+    
     mat_backing = backing_params["Materials"]
     mat_back_layers = back_layers_params["Materials"]
     mat_piezo = piezo_params["Materials"]
     mat_front_layers = front_layers_params["Materials"]
     mat_load = load_params["Materials"]
     
-    #=== Start creating the row and column layout
+    
+    # ==================================
+    # Create row and column layout
+    # ==================================
+    root = tk.Tk()
+    root.title("Layered Structure GUI")
+    root.geometry("1000x600")
+    
+
+    
+    # Menu
+    menu_bar = tk.Menu(root)
+
+    ## Create File menu
+    file_menu = tk.Menu(menu_bar, tearoff=0)
+    file_menu.add_command(label="Open")
+    file_menu.add_command(label="Save")
+    file_menu.add_command(label="Save as")
+    file_menu.add_separator()
+    file_menu.add_command(label="Exit", command=root.quit)
+    menu_bar.add_cascade(label="File", menu=file_menu)
+
+    ## Create Help menu
+    help_menu = tk.Menu(menu_bar, tearoff=0)
+    help_menu.add_command(label="About")
+    menu_bar.add_cascade(label="Help", menu=help_menu)
+
+    root.config(menu=menu_bar)
     
     # Button row
+    current_row = 0 # Keep track of the current row
+    
     button_frame = tk.Frame(root)
     button_frame.grid(row=current_row, column=0, columnspan=8, sticky="nsew", padx=1, pady=1)
 
-    button_names = ["Button 1", "Button 2", "Button 3", "Button 4"]
+    button_names = ["Mechanical Impedance", "Electrical Impedance", "Transfer Functions"]
     for i, name in enumerate(button_names):
         button = tk.Button(button_frame, text=name, font=('Arial', 10), borderwidth=2, relief="solid")
         button.grid(row=0, column=i, sticky="nsew", padx=1, pady=1)
@@ -248,5 +209,9 @@ def gui():
 #=========================
 
 if __name__ == "__main__":
+
+    struct_filename = "testing_3front_3back_air_water.xlsx"
     
-    gui()
+    materials_data, parameter_dict = get_parameters(struct_filename)
+    
+    gui(parameter_dict)
