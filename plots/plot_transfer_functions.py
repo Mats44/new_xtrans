@@ -60,5 +60,5 @@ def plot_transfer_functions(Y_tt, coupling, f, parameter_dict):
         H_tt = H_tt
     
     else:
-        
-        H_tt = comp_Htt_layer(sXtrans_data).' # = H_tt ??
+        pass
+        #H_tt = comp_Htt_layer(sXtrans_data).' # = H_tt ??
