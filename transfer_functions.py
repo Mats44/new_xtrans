@@ -101,8 +101,6 @@ def admittance(parameter_dict):
     # a_21_back = np.zeros((len_back_layers, len_f), dtype=complex)
     # a_22_back = np.zeros((len_back_layers, len_f), dtype=complex)
     
-    #TODO TODO -- Should z_c_* be multiplied by unit_area?
-    
     ### Front layers ###
     q_front_rec = 1 / q_front_layers
     z_c_front_layers = (1 + 0.5j * q_front_rec) * unit_area * z_c_front_layers
@@ -201,17 +199,16 @@ def admittance(parameter_dict):
         # For a single layer, directly calculate without looping
         if len_front_layers == 1:
             z_front[0, :] = (-(a_22_front[0, :] * z_c_load + a_12_front[0, :]) /
-                            (a_21_front[0, :] * z_c_load + a_11_front[0, :]))
+                              (a_21_front[0, :] * z_c_load + a_11_front[0, :]))
         else:
             # Calculate impedance for the layer closest to the load (last layer)
             z_front[-1, :] = (-(a_22_front[-1, :] * z_c_load + a_12_front[-1, :]) /
-                            (a_21_front[-1, :] * z_c_load + a_11_front[-1, :]))
+                               (a_21_front[-1, :] * z_c_load + a_11_front[-1, :]))
 
             # Iterate backwards from the second-last layer to the first
             for k in range(len_front_layers - 2, -1, -1):
-                # Calculate the impedance for each layer using the impedance of the layer ahead
                 z_front[k, :] = (-(a_22_front[k, :] * z_front[k+1, :] + a_12_front[k, :]) /
-                                (a_21_front[k, :] * z_front[k+1, :] + a_11_front[k, :]))
+                                  (a_21_front[k, :] * z_front[k+1, :] + a_11_front[k, :]))
 
     else:
         z_front = np.zeros((1, len_f), dtype=complex)
@@ -224,8 +221,6 @@ def admittance(parameter_dict):
     ### Mechanical loading on piezo back face ###
 
     # Back layers
-    z_back_reverse = np.zeros((len_back_layers, len_f), dtype=complex)
-
     if len_back_layers > 0:
     
         z_back_reverse = np.zeros((len_back_layers, len_f), dtype=complex)
@@ -233,44 +228,40 @@ def admittance(parameter_dict):
         # For a single layer, directly calculate without looping
         if len_back_layers == 1:
             z_back_reverse[0, :] = (-(a_22_back[0, :] * z_c_backing + a_12_back[0, :]) /
-                                    (a_21_back[0, :] * z_c_backing + a_11_back[0, :]))
+                                     (a_21_back[0, :] * z_c_backing + a_11_back[0, :]))
         else:
             # Calculate impedance for the layer closest to the backing (last layer)
             z_back_reverse[-1, :] = (-(a_22_back[-1, :] * z_c_backing + a_12_back[-1, :]) /
-                                     (a_21_back[-1, :] * z_c_backing + a_11_back[-1, :]))
+                                      (a_21_back[-1, :] * z_c_backing + a_11_back[-1, :]))
 
             # Iterate backwards from the second-last layer to the first
             for k in range(len_back_layers - 2, -1, -1):
-                # Calculate the impedance for each layer using the impedance of the layer ahead
                 z_back_reverse[k, :] = (-(a_22_back[k, :] * z_back_reverse[k+1, :] + a_12_back[k, :]) /
-                                        (a_21_back[k, :] * z_back_reverse[k+1, :] + a_11_back[k, :]))
+                                         (a_21_back[k, :] * z_back_reverse[k+1, :] + a_11_back[k, :]))
 
     else:
         z_back_reverse = np.zeros((1, len_f), dtype=complex)
-        z_back_reverse[0, :] = z_c_backing  # Assuming z_c_backing is the impedance to use when no layers are present
-    
+        z_back_reverse[0, :] = z_c_backing
+        
     # Piezo layers
     z_piezo_reverse = (-(a_22_piezo * z_back_reverse[0, :] + a_12_piezo) /
                         (a_21_piezo * z_back_reverse[0, :] + a_11_piezo))
     
-    ### Front layers in reverse
-    z_front_reverse = np.zeros((len_front_layers, len_f), dtype=complex)
-    
+    # Front layers in reverse (for calculating reflection coefficient; not used for mechanical loading)
     if len_front_layers > 0:
+
         z_front_reverse = np.zeros((len_front_layers, len_f), dtype=complex)
         
-        # For a single layer, directly calculate without looping
         if len_front_layers == 1:
             z_front_reverse[0, :] = (-(a_22_front[0, :] * z_piezo_reverse + a_12_front[0, :]) /
-                                     (a_21_front[0, :] * z_piezo_reverse + a_11_front[0, :]))
+                                      (a_21_front[0, :] * z_piezo_reverse + a_11_front[0, :]))
         else:
             # Calculate impedance for the layer closest to the piezo (first layer)
             z_front_reverse[0, :] = (-(a_22_front[0, :] * z_piezo_reverse + a_12_front[0, :]) /
-                                     (a_21_front[0, :] * z_piezo_reverse + a_11_front[0, :]))
+                                      (a_21_front[0, :] * z_piezo_reverse + a_11_front[0, :]))
 
             # Iterate forward from the second layer to the last
             for k in range(1, len_front_layers):
-                # Calculate the impedance for each layer using the impedance of the layer behind
                 z_front_reverse[k, :] = (-(a_22_front[k, :] * z_front_reverse[k-1, :] + a_12_front[k, :]) /
                                          (a_21_front[k, :] * z_front_reverse[k-1, :] + a_11_front[k, :]))
 
@@ -298,49 +289,64 @@ def admittance(parameter_dict):
     # Front part of structure
     v_interfaces_front = np.zeros((len_front_layers + 1, len_f), dtype=complex)
     F_interfaces_front = np.zeros((len_front_layers + 1, len_f), dtype=complex)
-    
-    v_interfaces_front[-1, :] = 2 * unit_area / (z_c_load + z_l) # Initial Force/voltage. Layer interfacing with load (Index [-1]).
-    F_interfaces_front[-1, :] = v_interfaces_front[-1, :] * z_l
-    
+        
     if len_front_layers != 0:
-        for k in range(len_front_layers - 1, -1, -1): # Reamining layers. [-1] layer next to load. [0] layer next to piezo.
+        
+        v_interfaces_front[-1, :] = 2 * unit_area / (z_c_load + z_l) # Initial Force/voltage. Layer interfacing with load (Index [-1]).
+        F_interfaces_front[-1, :] = v_interfaces_front[-1, :] * z_l
+        
+        for k in range(len_front_layers - 1, -1, -1): # Remaining layers. [-1] layer next to load. [0] layer next to piezo.
             v_interfaces_front[k, :] = -(a_21_front[k, :] * F_interfaces_front[k + 1, :] + 
-                                         a_22_front[k, :] * v_interfaces_front[k + 1, :])
+                                        a_22_front[k, :] * v_interfaces_front[k + 1, :])
         
             F_interfaces_front[k, :] = (a_11_front[k, :] * F_interfaces_front[k + 1, :] + 
-                                        a_12_front[k, :] * v_interfaces_front[k + 1, :])
-    else:
-        pass # This leaves the initial values as the only values in the arrays
+                                        a_12_front[k, :] * v_interfaces_front[k + 1, :])\
+                                                
+    else: #TODO: What should this be if there are no front layers?
+        v_interfaces_front[-1, :] = 2 * unit_area / (z_c_load + z_l)
+        F_interfaces_front[-1, :] = v_interfaces_front[-1, :] * z_l
 
     # Piezo layer
     v_interfaces_piezo = np.zeros((1, len_f), dtype=complex)
     F_interfaces_piezo = np.zeros((1, len_f), dtype=complex)
 
-    v_interfaces_piezo[-1, :] = -(a_21_piezo[-1, :] * F_interfaces_front[0, :] + 
-                                  a_22_piezo[-1, :] * v_interfaces_front[0, :])
+    v_interfaces_piezo[0, :] = -(a_21_piezo * F_interfaces_front[0, :] + 
+                                  a_22_piezo * v_interfaces_front[0, :])
     
-    F_interfaces_piezo[-1, :] = (a_11_piezo[-1, :] * F_interfaces_front[0, :] + 
-                                 a_12_piezo[-1, :] * v_interfaces_front[0, :])
+    F_interfaces_piezo[0, :] = (a_11_piezo * F_interfaces_front[0, :] + 
+                                 a_12_piezo * v_interfaces_front[0, :])
     
-    # Back part of structure
+    # Back part of structure'
     if len_back_layers != 0:
         
-        v_interfaces_back = np.zeros((len_back_layers + 1, len_f), dtype=complex)
-        F_interfaces_back = np.zeros((len_back_layers + 1, len_f), dtype=complex)
-        
-        
-        v_interfaces_back[0, :] = -(a_21_back[0, :] * F_interfaces_piezo[0, :] + 
-                                    a_22_back[0, :] * v_interfaces_piezo[0, :])
-        
-        F_interfaces_back[0, :] = (a_11_back[0, :] * F_interfaces_piezo[0, :] + 
-                                    a_12_back[0, :] * v_interfaces_piezo[0, :])
-    
-        for k in range(1, len_back_layers + 1):
-            v_interfaces_back[k, :] = -(a_21_back[k - 1, :] * F_interfaces_back[k - 1, :] + 
-                                        a_22_back[k - 1, :] * v_interfaces_back[k - 1, :])
+        if len_back_layers == 1:
             
-            F_interfaces_back[k, :] = (a_11_back[k - 1, :] * F_interfaces_back[k - 1, :] + 
-                                        a_12_back[k - 1, :] * v_interfaces_back[k - 1, :])
+            v_interfaces_back = np.zeros((len_back_layers, len_f), dtype=complex)
+            F_interfaces_back = np.zeros((len_back_layers, len_f), dtype=complex)
+        
+            v_interfaces_back[0, :] = -(a_21_back[0, :] * F_interfaces_piezo[0, :] + 
+                                        a_22_back[0, :] * v_interfaces_piezo[0, :])
+            
+            F_interfaces_back[0, :] = (a_11_back[0, :] * F_interfaces_piezo[0, :] + 
+                                       a_12_back[0, :] * v_interfaces_piezo[0, :])
+    
+        else:
+            
+            v_interfaces_back = np.zeros((len_back_layers, len_f), dtype=complex)
+            F_interfaces_back = np.zeros((len_back_layers, len_f), dtype=complex)
+        
+            v_interfaces_back[0, :] = -(a_21_back[0, :] * F_interfaces_piezo[0, :] + 
+                                        a_22_back[0, :] * v_interfaces_piezo[0, :])
+            
+            F_interfaces_back[0, :] = (a_11_back[0, :] * F_interfaces_piezo[0, :] + 
+                                       a_12_back[0, :] * v_interfaces_piezo[0, :])
+            
+            for k in range(1, len_back_layers):
+                v_interfaces_back[k, :] = -(a_21_back[k, :] * F_interfaces_back[k - 1, :] + 
+                                            a_22_back[k, :] * v_interfaces_back[k - 1, :])
+                
+                F_interfaces_back[k, :] = (a_11_back[k, :] * F_interfaces_back[k - 1, :] + 
+                                           a_12_back[k, :] * v_interfaces_back[k - 1, :])
             
     else:
         pass
@@ -448,8 +454,14 @@ if __name__ == "__main__":
 
     # Get variables
     #struct_filename = "struct_0front_0back_air_air.xlsx"
-    #struct_filename = "struct_0front_1back_water_air.xlsx"
-    struct_filename = "struct_0front_3back_water_air.xlsx"
+    struct_filename = "struct_0front_1back_water_air.xlsx"
+    #struct_filename = "struct_0front_3back_water_air.xlsx"
+    #struct_filename = "struct_3front_0back_water_air.xlsx"
+    #struct_filename = "struct_1front_1back_water_air.xlsx"
+    #struct_filename = "testing_3front_3back_air_water.xlsx"
+
+    #struct_filename = "struct_2front_1back_water_air.xlsx"
+    #struct_filename = "struct_1front_2back_water_air.xlsx"
 
     
     materials_data, parameter_dict = get_parameters(struct_filename)

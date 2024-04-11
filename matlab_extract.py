@@ -229,19 +229,22 @@ def plot_mechanical_impedance_combined(xtrans_z_load_to_backing, xtrans_z_backin
 
 if __name__ == "__main__":
 
-    from mechanical_impedance import mechanical_impedance
-    #from mechanical_impedance_loss import mechanical_impedance
+    from mechanical_impedance import mechanical_impedance as mechanical_impedance
+    from mechanical_impedance_loss import mechanical_impedance as mechanical_impedance_loss
     from get_parameters import get_parameters
     from transfer_functions import admittance
 
     ### MATLAB structures ###
     xtrans_param_path = 'parameters/matlab/xtrans_0front_0back_air_air.mat'
 
-    load_to_backing_path = 'parameters/matlab/z_LoadToBacking_0front_0back_air_air.mat'
-    backing_to_load_path = 'parameters/matlab/z_backingToLoad_0front_0back_air_air.mat'
+    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_0front_0back_air_air.mat'
+    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_0front_0back_air_air.mat'
     
     #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_0back_air_air.mat'
     #backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_0back_air_air.mat'
+    
+    load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_0back_water_air.mat'
+    backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_0back_water_air.mat'
     
     #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_0front_1back_water_air.mat'
     #backing_to_load_path = 'parameters/matlab/z_backingToLoad_0front_1back_water_air.mat'
@@ -258,8 +261,8 @@ if __name__ == "__main__":
 
     #z_el_path = 'parameters/matlab/Zel_0front_0back_air_air.mat'
     #z_el_path = 'parameters/matlab/Zel_0front_1back_water_air.mat'
-    z_el_path = 'parameters/matlab/Zel_1front_0back_water_air.mat'
-    #z_el_path = 'parameters/matlab/Zel_3front_1back_water_air.mat'
+    #z_el_path = 'parameters/matlab/Zel_1front_0back_water_air.mat'
+    z_el_path = 'parameters/matlab/Zel_3front_1back_water_air.mat'
     #z_el_path = 'parameters/matlab/Zel_3front_3back_water_air.mat'
     #z_el_path = 'parameters/matlab/Zel_1front_1back_water_air.mat'
     #z_el_path = 'parameters/matlab/Zel_3front_0back_water_air.mat'
@@ -301,7 +304,7 @@ if __name__ == "__main__":
         z_in_back_reverse,
         z_in_piezo_reverse,
         z_in_front_reverse,
-    ) = mechanical_impedance(parameter_dict)
+    ) = mechanical_impedance_loss(parameter_dict)
 
     ### Get Python electrical impedance data ###
     Y_el, H_tt, f_el, unit_area = admittance(parameter_dict)

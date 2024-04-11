@@ -21,8 +21,8 @@ z_air = 0.000415 * 1e6  # Impedance of air in Rayls
 z_water = 1.48 * 1e6  # Impedance of water in Rayls
 
 Z_piezo = 34 * 1e6  # Impedance of the transducer material in Rayls
-Z_load = z_water # Impedance of the load in Rayls
-N = 1  # Number of layers
+Z_load = z_air # Impedance of the load in Rayls
+N = 2  # Number of layers
 
 impedances = []
 
