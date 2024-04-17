@@ -44,36 +44,42 @@ def plot_mech_imp_fwd(z_in_front, z_in_piezo, z_in_back, z_c_backing, f, f_min, 
         axs[1, 0].plot(f, np.imag(row), color=color, linewidth=line_width)
         axs[1, 1].plot(f, np.angle(row, deg=True), color=color, linewidth=line_width)
 
-    # Plot z_in_piezo
-    z_in_piezo = z_in_piezo / 1e6
-    for i, row in enumerate(z_in_piezo):
-        axs[0, 0].plot(f, np.real(row), color='gold', linewidth=line_width, label=f'Piezo layer')
-        axs[0, 1].plot(f, np.abs(row), color='gold', linewidth=line_width, label=f'Piezo layer')
-        axs[1, 0].plot(f, np.imag(row), color='gold', linewidth=line_width)
-        axs[1, 1].plot(f, np.angle(row, deg=True), color='gold', linewidth=line_width)
+    # # Plot z_in_piezo
+    # z_in_piezo = z_in_piezo / 1e6
+    # for i, row in enumerate(z_in_piezo):
+    #     axs[0, 0].plot(f, np.real(row), color='gold', linewidth=line_width, label=f'Piezo layer')
+    #     axs[0, 1].plot(f, np.abs(row), color='gold', linewidth=line_width, label=f'Piezo layer')
+    #     axs[1, 0].plot(f, np.imag(row), color='gold', linewidth=line_width)
+    #     axs[1, 1].plot(f, np.angle(row, deg=True), color='gold', linewidth=line_width)
 
-    # Plot z_in_back
-    z_in_back = z_in_back / 1e6
-    colors= ['orange', 'cyan', 'magenta', 'teal']
+    # # Plot z_in_back
+    # z_in_back = z_in_back / 1e6
+    # colors= ['orange', 'cyan', 'magenta', 'teal']
     
-    for i, row in enumerate(z_in_back):
-        color = colors[i]
+    # for i, row in enumerate(z_in_back):
+    #     color = colors[i]
 
-        axs[0, 0].plot(f, np.real(row), color=color, linewidth=line_width, label=f'Back layer {i+1}')
-        axs[0, 1].plot(f, np.abs(row), color=color, linewidth=line_width, label=f'Back layer {i+1}')
-        axs[1, 0].plot(f, np.imag(row), color=color, linewidth=line_width)
-        axs[1, 1].plot(f, np.angle(row, deg=True), color=color, linewidth=line_width)
+    #     axs[0, 0].plot(f, np.real(row), color=color, linewidth=line_width, label=f'Back layer {i+1}')
+    #     axs[0, 1].plot(f, np.abs(row), color=color, linewidth=line_width, label=f'Back layer {i+1}')
+    #     axs[1, 0].plot(f, np.imag(row), color=color, linewidth=line_width)
+    #     axs[1, 1].plot(f, np.angle(row, deg=True), color=color, linewidth=line_width)
         
     # Set the x-axis limits and titles
     for ax in axs.flat:
         ax.set_xlim([f_min, f_max])
         ax.set_xlabel('Frequency [MHz]')
 
-    # Set the y-axis titles
+    # Set the y-axis limits and titles 
     axs[0, 0].set_ylabel('Re{z_fwd} [MRayl]')
     axs[0, 1].set_ylabel('|z_fwd| [MRayl]')
     axs[1, 0].set_ylabel('Im{z_fwd} [MRayl]')
     axs[1, 1].set_ylabel(' z_fwd Phase [deg]')
+
+    axs[0, 0].set_ylim(0, 120)
+    axs[0, 1].set_ylim(0, 120)
+    axs[1, 0].set_ylim(0, 120)
+    axs[1, 1].set_ylim(-90, 90)
+    axs[1, 1].set_yticks(range(-90, 91, 30))
 
     # Show legends
     axs[0, 1].legend(loc='upper right')
@@ -113,26 +119,26 @@ def plot_mech_imp_bwd(z_in_front_reverse, z_in_piezo_reverse, z_in_back_reverse,
         axs[1, 0].plot(f, np.imag(row), color=color, linewidth=line_width)
         axs[1, 1].plot(f, np.angle(row, deg=True), color=color, linewidth=line_width)
 
-    # Plot z_in_piezo_reverse
-    z_in_piezo_reverse = z_in_piezo_reverse / 1e6
-    for i, row in enumerate(z_in_piezo_reverse):
-        axs[0, 0].plot(f, np.real(row), color='gold', linewidth=line_width, label=f'Piezo layer')
-        axs[0, 1].plot(f, np.abs(row), color='gold', linewidth=line_width, label=f'Piezo layer')
-        axs[1, 0].plot(f, np.imag(row), color='gold', linewidth=line_width)
-        axs[1, 1].plot(f, np.angle(row, deg=True), color='gold', linewidth=line_width)
+    # # Plot z_in_piezo_reverse
+    # z_in_piezo_reverse = z_in_piezo_reverse / 1e6
+    # for i, row in enumerate(z_in_piezo_reverse):
+    #     axs[0, 0].plot(f, np.real(row), color='gold', linewidth=line_width, label=f'Piezo layer')
+    #     axs[0, 1].plot(f, np.abs(row), color='gold', linewidth=line_width, label=f'Piezo layer')
+    #     axs[1, 0].plot(f, np.imag(row), color='gold', linewidth=line_width)
+    #     axs[1, 1].plot(f, np.angle(row, deg=True), color='gold', linewidth=line_width)
 
-    # Plot z_in_front_reverse
-    z_in_front_reverse = z_in_front_reverse / 1e6 # Convert to MRayl
-    colors= ['orange', 'cyan', 'magenta', 'teal']
+    # # Plot z_in_front_reverse
+    # z_in_front_reverse = z_in_front_reverse / 1e6 # Convert to MRayl
+    # colors= ['orange', 'cyan', 'magenta', 'teal']
     
-    for i, row in enumerate(z_in_front_reverse):
-        #color = color_scale(i / len(z_in_front_reverse))
-        color = colors[i]
+    # for i, row in enumerate(z_in_front_reverse):
+    #     #color = color_scale(i / len(z_in_front_reverse))
+    #     color = colors[i]
 
-        axs[0, 0].plot(f, np.real(row), color=color, linewidth=line_width, label=f'Front layer {i+1}')
-        axs[0, 1].plot(f, np.abs(row), color=color, linewidth=line_width, label=f'Front layer {i+1}')
-        axs[1, 0].plot(f, np.imag(row), color=color, linewidth=line_width)
-        axs[1, 1].plot(f, np.angle(row, deg=True), color=color, linewidth=line_width)
+    #     axs[0, 0].plot(f, np.real(row), color=color, linewidth=line_width, label=f'Front layer {i+1}')
+    #     axs[0, 1].plot(f, np.abs(row), color=color, linewidth=line_width, label=f'Front layer {i+1}')
+    #     axs[1, 0].plot(f, np.imag(row), color=color, linewidth=line_width)
+    #     axs[1, 1].plot(f, np.angle(row, deg=True), color=color, linewidth=line_width)
 
     # Set the x-axis limits and titles
     for ax in axs.flat:
@@ -144,6 +150,12 @@ def plot_mech_imp_bwd(z_in_front_reverse, z_in_piezo_reverse, z_in_back_reverse,
     axs[0, 1].set_ylabel('|z_bwd| [MRayl]')
     axs[1, 0].set_ylabel('Im{z_bwd} [MRayl]')
     axs[1, 1].set_ylabel('z_bwd Phase [deg]')
+
+    axs[0, 0].set_ylim(0, 120)
+    axs[0, 1].set_ylim(0, 120)
+    axs[1, 0].set_ylim(0, 120)
+    axs[1, 1].set_ylim(-90, 90)
+    axs[1, 1].set_yticks(range(-90, 91, 30))
 
     # Show legends
     axs[0, 1].legend(loc='upper right')

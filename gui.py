@@ -19,7 +19,7 @@ def gui():
 
         if file_path:  # Check if a file was selected
             struct_filename = os.path.basename(file_path)
-            materials_data, parameter_dict = get_parameters(struct_filename)
+            _, parameter_dict = get_parameters(struct_filename)
 
             update_gui(parameter_dict)
 
@@ -267,7 +267,7 @@ def gui():
 
     def initialize_gui(): # Default values for initializing the GUI
         struct_filename = "struct_1front_1back_water_air.xlsx"
-        materials_data, parameter_dict = get_parameters(struct_filename)
+        _, parameter_dict = get_parameters(struct_filename)
 
         return parameter_dict
 

@@ -454,10 +454,10 @@ if __name__ == "__main__":
 
     # Get variables
     #struct_filename = "struct_0front_0back_air_air.xlsx"
-    struct_filename = "struct_0front_1back_water_air.xlsx"
+    #struct_filename = "struct_0front_1back_water_air.xlsx"
     #struct_filename = "struct_0front_3back_water_air.xlsx"
     #struct_filename = "struct_3front_0back_water_air.xlsx"
-    #struct_filename = "struct_1front_1back_water_air.xlsx"
+    struct_filename = "struct_1front_1back_water_air.xlsx"
     #struct_filename = "testing_3front_3back_air_water.xlsx"
 
     #struct_filename = "struct_2front_1back_water_air.xlsx"
@@ -486,14 +486,7 @@ if __name__ == "__main__":
     f = parameter_dict["f"]
     f = f.reshape(1, -1) / 1e6
     
-    # df = 0.01e6
-    # f_min = df
-    # f_max = 20e6
-    # f = np.arange(df, f_max + df, df) / 1e6
-    #f = f / 1e6
-    
     Z_el = 1 / Y_el
-    #Z_el = Z_el / unit_area
     
     fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True)
 

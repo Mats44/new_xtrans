@@ -243,14 +243,14 @@ if __name__ == "__main__":
     #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_0back_air_air.mat'
     #backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_0back_air_air.mat'
     
-    load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_0back_water_air.mat'
-    backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_0back_water_air.mat'
+    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_0back_water_air.mat'
+    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_0back_water_air.mat'
     
     #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_0front_1back_water_air.mat'
     #backing_to_load_path = 'parameters/matlab/z_backingToLoad_0front_1back_water_air.mat'
     
-    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_3front_1back_water_air.mat'
-    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_3front_1back_water_air.mat'
+    load_to_backing_path = 'parameters/matlab/z_LoadToBacking_3front_1back_water_air.mat'
+    backing_to_load_path = 'parameters/matlab/z_backingToLoad_3front_1back_water_air.mat'
     
     #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_0front_3back_water_air.mat'
     #backing_to_load_path = 'parameters/matlab/z_backingToLoad_0front_3back_water_air.mat'
@@ -271,9 +271,9 @@ if __name__ == "__main__":
     ### Python structures ###
     #struct_filename = "struct_0front_0back_air_air.xlsx"
     #struct_filename = "struct_1front_0back_air_air.xlsx"
-    struct_filename = "struct_1front_0back_air_water.xlsx"
+    #struct_filename = "struct_1front_0back_air_water.xlsx"
     #struct_filename = "struct_0front_1back_water_air.xlsx"
-    #struct_filename = "struct_3front_1back_water_air.xlsx"
+    struct_filename = "struct_3front_1back_water_air.xlsx"
     #struct_filename = "struct_0front_3back_water_air.xlsx"
     #struct_filename = "struct_3front_3back_water_air.xlsx"
 
@@ -304,7 +304,7 @@ if __name__ == "__main__":
         z_in_back_reverse,
         z_in_piezo_reverse,
         z_in_front_reverse,
-    ) = mechanical_impedance_loss(parameter_dict)
+    ) = mechanical_impedance(parameter_dict)
 
     ### Get Python electrical impedance data ###
     Y_el, H_tt, f_el, unit_area = admittance(parameter_dict)
