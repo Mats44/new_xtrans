@@ -4,7 +4,7 @@ import mplcursors
 import numpy as np
 from get_parameters import param_dict_extract
 
-def plot_mech_imp_fwd(z_in_front, z_in_piezo, z_in_back, z_c_backing, f, f_min, f_max):
+def plot_mech_imp_fwd(z_in_front, z_in_piezo, z_in_back, z_c_backing, z_c_piezo, z_c_load, f, f_min, f_max):
     """
     Plot the mechanical impedance seen towards the backing (load -> piezo -> backing)
     using Matplotlib.
@@ -16,12 +16,12 @@ def plot_mech_imp_fwd(z_in_front, z_in_piezo, z_in_back, z_c_backing, f, f_min, 
     line_width = 1
     
     size = 10
-    cmap = plt.cm.get_cmap('viridis', size) # Generate a color map
+    cmap = plt.cm.get_cmap('tab10', size) # Generate a color map
     colors = [cmap(i) for i in range(size)] # Generate colors from the color map
 
     # Create a figure with subplots
     fig, axs = plt.subplots(2, 2, figsize=(15, 10))
-    fig.suptitle('Mech Z Forward (load->backing)', fontsize=14)
+    fig.suptitle('Mechanical Impedance (load --> backing)', fontsize=14)
 
     # # Plot z_c_backing
     # z_c_backing = z_c_backing / 1e6
@@ -34,7 +34,7 @@ def plot_mech_imp_fwd(z_in_front, z_in_piezo, z_in_back, z_c_backing, f, f_min, 
 
     # Plot z_in_front
     z_in_front = z_in_front / 1e6 # Convert to MRayl
-    colors = ['blue', 'green', 'red', 'purple']
+    #colors = ['blue', 'green', 'red', 'purple']
     
     for i, row in enumerate(z_in_front):
         color = colors[i]
@@ -44,6 +44,15 @@ def plot_mech_imp_fwd(z_in_front, z_in_piezo, z_in_back, z_c_backing, f, f_min, 
         axs[1, 0].plot(f, np.imag(row), color=color, linewidth=line_width)
         axs[1, 1].plot(f, np.angle(row, deg=True), color=color, linewidth=line_width)
 
+    #z_piezo = np.zeros_like(f)
+    z_piezo = np.full_like(f, z_c_piezo / 1e6)
+    axs[0, 0].plot(f, z_piezo, color='gold', linewidth=line_width, label=f'Piezo layer')
+    axs[0, 1].plot(f, z_piezo, color='gold', linewidth=line_width, label=f'Piezo layer')
+    
+    z_load = np.full_like(f, z_c_load / 1e6)
+    axs[0, 0].plot(f, z_load, color='black', linewidth=line_width, label=f'Load')
+    axs[0, 1].plot(f, z_load, color='black', linewidth=line_width, label=f'Load')
+    
     # # Plot z_in_piezo
     # z_in_piezo = z_in_piezo / 1e6
     # for i, row in enumerate(z_in_piezo):
@@ -67,7 +76,11 @@ def plot_mech_imp_fwd(z_in_front, z_in_piezo, z_in_back, z_c_backing, f, f_min, 
     # Set the x-axis limits and titles
     for ax in axs.flat:
         ax.set_xlim([f_min, f_max])
-        ax.set_xlabel('Frequency [MHz]')
+        ax.set_xticks(np.arange(f_min, f_max+1, 2))
+        ax.set_xticklabels(np.arange(f_min, f_max+1, 2).astype(int))
+        #ax.minorticks_on()
+    axs[1,0].set_xlabel('Frequency [MHz]')
+    axs[1,1].set_xlabel('Frequency [MHz]')
 
     # Set the y-axis limits and titles 
     axs[0, 0].set_ylabel('Re{z_fwd} [MRayl]')
@@ -84,11 +97,13 @@ def plot_mech_imp_fwd(z_in_front, z_in_piezo, z_in_back, z_c_backing, f, f_min, 
     # Show legends
     axs[0, 1].legend(loc='upper right')
 
-    # Show the plot
+    # Add grid lines
+    for ax in axs.flat:
+        ax.grid(True, which='both', linestyle='--', linewidth='0.5')
     plt.tight_layout()
     
 
-def plot_mech_imp_bwd(z_in_front_reverse, z_in_piezo_reverse, z_in_back_reverse, f, f_min, f_max):
+def plot_mech_imp_bwd(z_in_front_reverse, z_in_piezo_reverse, z_in_back_reverse, z_c_piezo, z_c_backing, f, f_min, f_max):
     """
     Plot the mechanical impedance seen towards the load (backing -> piezo -> load)
     using Matplotlib.
@@ -100,16 +115,16 @@ def plot_mech_imp_bwd(z_in_front_reverse, z_in_piezo_reverse, z_in_back_reverse,
     line_width = 1
     
     size = 10
-    cmap = plt.cm.get_cmap('viridis', size) # Generate a color map
+    cmap = plt.cm.get_cmap('tab10', size) # Generate a color map
     colors = [cmap(i) for i in range(size)] # Generate colors from the color map
 
     # Create a figure with subplots
     fig, axs = plt.subplots(2, 2, figsize=(15, 10))
-    fig.suptitle('Mech Z Backward (backing->load)', fontsize=14)
+    fig.suptitle('Mechanical Impedance (backing->load)', fontsize=14)
 
     # Plot z_in_back_reverse
     z_in_back_reverse = z_in_back_reverse / 1e6
-    colors = ['blue', 'green', 'red', 'purple']
+    #colors = ['blue', 'green', 'red', 'purple']
     
     for i, row in enumerate(z_in_back_reverse):
         color = colors[i]
@@ -118,6 +133,14 @@ def plot_mech_imp_bwd(z_in_front_reverse, z_in_piezo_reverse, z_in_back_reverse,
         axs[0, 1].plot(f, np.abs(row), color=color, linewidth=line_width, label=f'Back layer {i+1}')
         axs[1, 0].plot(f, np.imag(row), color=color, linewidth=line_width)
         axs[1, 1].plot(f, np.angle(row, deg=True), color=color, linewidth=line_width)
+    
+    z_piezo = np.full_like(f, z_c_piezo / 1e6)
+    axs[0, 0].plot(f, z_piezo, color='gold', linewidth=line_width, label=f'Piezo layer')
+    axs[0, 1].plot(f, z_piezo, color='gold', linewidth=line_width, label=f'Piezo layer')
+    
+    z_backing = np.full_like(f, z_c_backing / 1e6)
+    axs[0, 0].plot(f, z_backing, color='black', linewidth=line_width, label=f'Backing')
+    axs[0, 1].plot(f, z_backing, color='black', linewidth=line_width, label=f'Backing')
 
     # # Plot z_in_piezo_reverse
     # z_in_piezo_reverse = z_in_piezo_reverse / 1e6
@@ -143,7 +166,10 @@ def plot_mech_imp_bwd(z_in_front_reverse, z_in_piezo_reverse, z_in_back_reverse,
     # Set the x-axis limits and titles
     for ax in axs.flat:
         ax.set_xlim([f_min, f_max])
-        ax.set_xlabel('Frequency [MHz]')
+        ax.set_xticks(np.arange(f_min, f_max+1, 2))
+        ax.set_xticklabels(np.arange(f_min, f_max+1, 2).astype(int))
+    axs[1,0].set_xlabel('Frequency [MHz]')
+    axs[1,1].set_xlabel('Frequency [MHz]')
 
     # Set the y-axis titles
     axs[0, 0].set_ylabel('Re{z_bwd} [MRayl]')
@@ -160,7 +186,9 @@ def plot_mech_imp_bwd(z_in_front_reverse, z_in_piezo_reverse, z_in_back_reverse,
     # Show legends
     axs[0, 1].legend(loc='upper right')
 
-    # Show the plot
+    # Add grid lines
+    for ax in axs.flat:
+        ax.grid(True, which='both', linestyle='--', linewidth='0.5')
     plt.tight_layout()
 
     
@@ -219,7 +247,7 @@ def plot_mech_imp_matplotlib(z_load_to_backing, z_backing_to_load, z_in_front, z
 
 
 
-    plot_mech_imp_fwd(z_in_front, z_in_piezo, z_in_back, z_c_backing, f, f_min, f_max)
-    plot_mech_imp_bwd(z_in_front_reverse, z_in_piezo_reverse, z_in_back_reverse, f, f_min, f_max)
+    plot_mech_imp_fwd(z_in_front, z_in_piezo, z_in_back, z_c_backing, z_c_piezo, z_c_load, f, f_min, f_max)
+    plot_mech_imp_bwd(z_in_front_reverse, z_in_piezo_reverse, z_in_back_reverse, z_c_piezo, z_c_backing, f, f_min, f_max)
     
     plt.show()

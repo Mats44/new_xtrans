@@ -352,20 +352,17 @@ def mechanical_impedance(parameter_dict):
 
 ##################################
 
-#CURRENTLY USING LARS METHOD FOR CALCULATIONS
-
 if __name__ == "__main__":
 
     import matplotlib.pyplot as plt
     from get_parameters import get_parameters
     from plots.plot_mech_imp_matplotlib import plot_mech_imp_matplotlib
 
-    #struct_filename = "struct_params_1back_3front_air_water.xlsx"
-    #struct_filename = "struct_params_3back_3front_air_water.xlsx"
     #struct_filename = "struct_1front_0back_air_water.xlsx"
     #struct_filename = "struct_1front_0back_air_air.xlsx"
     #struct_filename = "struct_params_0back_0front_air_air.xlsx"
-    struct_filename = "testing_3front_3back_air_water.xlsx"
+    struct_filename = "struct_3front_1back_water_air.xlsx"
+    #struct_filename = "testing_3front_3back_air_water.xlsx"
 
     materials_data, parameter_dict = get_parameters(struct_filename)
 

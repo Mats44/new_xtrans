@@ -405,17 +405,17 @@ def admittance(parameter_dict):
     ##### F_htt = VI1(lenp+1, :) = F_piezo_back
     ##### v_htt = VI2(lenp+1, :) = v_piezo_back
     
-    # F_htt = np.zeros((1, len_f), dtype=complex)
-    # v_htt = np.zeros((1, len_f), dtype=complex)
+    F_htt = np.zeros((len_front_layers+1, len_f), dtype=complex)
+    v_htt = np.zeros((len_front_layers+1, len_f), dtype=complex)
     
-    # F_htt[0,:] = F_piezo_back
-    # v_htt[0,:] = v_piezo_back
+    F_htt[0,:] = F_piezo_back
+    v_htt[0,:] = v_piezo_back
     
-    # for k in range(0, len_front_layers):
-    #     v_htt[k+1, :] = a_11_front[k, :] * v_htt[k, :] - a_12_front[k, :] * F_htt[k, :]
-    #     F_htt[k+1, :] = a_21_front[k, :] * v_htt[k, :] - a_22_front[k, :] * F_htt[k, :]
+    for k in range(0, len_front_layers):
+        v_htt[k+1, :] = a_11_front[k, :] * v_htt[k, :] - a_12_front[k, :] * F_htt[k, :]
+        F_htt[k+1, :] = a_21_front[k, :] * v_htt[k, :] - a_22_front[k, :] * F_htt[k, :]
     
-    # h_tt = -v_htt[-1, :]
+    #h_tt = -v_htt[-1, :]
     
     
     
@@ -457,7 +457,8 @@ if __name__ == "__main__":
     #struct_filename = "struct_0front_1back_water_air.xlsx"
     #struct_filename = "struct_0front_3back_water_air.xlsx"
     #struct_filename = "struct_3front_0back_water_air.xlsx"
-    struct_filename = "struct_1front_1back_water_air.xlsx"
+    #struct_filename = "struct_1front_1back_water_air.xlsx"
+    struct_filename = "struct_3front_1back_water_air.xlsx"
     #struct_filename = "testing_3front_3back_air_water.xlsx"
 
     #struct_filename = "struct_2front_1back_water_air.xlsx"
@@ -483,6 +484,7 @@ if __name__ == "__main__":
     # ==================================
     # Plotting electrical impedance
     # ==================================
+    
     f = parameter_dict["f"]
     f = f.reshape(1, -1) / 1e6
     
@@ -514,9 +516,9 @@ if __name__ == "__main__":
 
     plt.show()
     
-    # ==================================
-    # Plotting transfer functions
-    # =================================
+    # # ==================================
+    # # Plotting transfer functions
+    # # =================================
     
     # fig, ax = plt.subplots()
     # ax.plot(f.flatten(), np.abs(h_tt.flatten()))
