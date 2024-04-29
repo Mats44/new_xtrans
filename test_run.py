@@ -4,8 +4,8 @@ from transfer_functions import admittance
 
 #struct_filename = "struct_1front_0back_air_water.xlsx"
 #struct_filename = "struct_1front_0back_air_air.xlsx"
-#struct_filename = "struct_params_0back_0front_air_air.xlsx"
-struct_filename = "struct_3front_1back_water_air.xlsx"
+struct_filename = "struct_0front_0back_air_air.xlsx"
+#struct_filename = "struct_3front_1back_water_air.xlsx"
 #struct_filename = "testing_3front_3back_air_water.xlsx"
 
 materials_data, parameter_dict = get_parameters(struct_filename)

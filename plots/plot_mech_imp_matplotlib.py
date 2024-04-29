@@ -4,6 +4,55 @@ import mplcursors
 import numpy as np
 from get_parameters import param_dict_extract
 
+# def plot_mech_imp_fwd(z_in_front, z_in_piezo, z_in_back, z_c_backing, z_c_piezo, z_c_load, f, f_min, f_max):
+#     """
+#     plot only absolute value. For use in presentations.
+#     """
+#     f = f / 1e6  # convert to MHz
+#     f_min = f_min / 1e6
+#     f_max = f_max / 1e6
+
+#     line_width = 1
+#     size = 10
+#     cmap = plt.cm.get_cmap('tab10', size)  # Generate a color map
+#     colors = [cmap(i) for i in range(size)]  # Generate colors from the color map
+
+#     # Create a figure with a single subplot
+#     fig, ax = plt.subplots(figsize=(15, 7))
+#     fig.suptitle('Mechanical Impedance (load --> backing)', fontsize=14)
+
+#     # Plot z_in_front
+#     z_in_front = z_in_front / 1e6  # Convert to MRayl
+#     for i, row in enumerate(z_in_front):
+#         color = colors[i]
+#         ax.plot(f, np.abs(row), color=color, linewidth=line_width, label=f'Front layer {i+1}')
+
+#     # z_piezo
+#     z_piezo = np.full_like(f, z_c_piezo / 1e6)
+#     ax.plot(f, np.abs(z_piezo), color='gold', linewidth=line_width, label=f'Piezo layer')
+
+#     # z_load
+#     z_load = np.full_like(f, z_c_load / 1e6)
+#     ax.plot(f, np.abs(z_load), color='black', linewidth=line_width, label=f'Load')
+
+#     # Set the x-axis limits and titles
+#     ax.set_xlim([f_min, f_max])
+#     ax.set_xticks(np.arange(f_min, f_max + 1, 2))
+#     ax.set_xticklabels(np.arange(f_min, f_max + 1, 2).astype(int))
+#     ax.set_xlabel('Frequency [MHz]')
+
+#     # Set the y-axis limits and titles 
+#     ax.set_ylabel('|z_fwd| [MRayl]')
+#     ax.set_ylim(0, 40)
+
+#     # Show legends
+#     ax.legend(loc='upper right')
+
+#     # Add grid lines
+#     ax.grid(True, which='both', linestyle='--', linewidth='0.5')
+#     plt.tight_layout()
+#     plt.show()
+
 def plot_mech_imp_fwd(z_in_front, z_in_piezo, z_in_back, z_c_backing, z_c_piezo, z_c_load, f, f_min, f_max):
     """
     Plot the mechanical impedance seen towards the backing (load -> piezo -> backing)

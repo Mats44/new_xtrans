@@ -394,7 +394,7 @@ def admittance(parameter_dict):
 
     determinant = (1 + y_11 * z_back_total) * (1 + y_22 * z_front_total) - y_21 * z_back_total * y_12 * z_front_total
     v_piezo_front = -(y_13 * (1 + y_22 * z_front_total) - y_23 * y_12 * z_front_total) / determinant # Velocity at front face of piezo | # VI2(k)
-    F_piezo_front = v_piezo_front * z_front_total # Force at front face of piezo | # VI1(k)
+    F_piezo_front = v_piezo_front * z_back_total # Force at front face of piezo | # VI1(k)
     v_piezo_back = (-y_13 * y_21 * z_back_total + y_23 * (1 + y_11 * z_back_total)) / determinant  # VI2(k+1)
     F_piezo_back = -v_piezo_back * z_front_total # VI1(k+1)
 
@@ -402,8 +402,8 @@ def admittance(parameter_dict):
     
     # H_tt (calculated with unit voltage (V3 = 1V) )
     
-    ##### F_htt = VI1(lenp+1, :) = F_piezo_back
-    ##### v_htt = VI2(lenp+1, :) = v_piezo_back
+    ##### F_htt = VI1(lenp+1, :) = initial pressure/voltage for piezo layer = F_piezo_back
+    ##### v_htt = VI2(lenp+1, :) = initial current/velocity = v_piezo_back
     
     F_htt = np.zeros((len_front_layers+1, len_f), dtype=complex)
     v_htt = np.zeros((len_front_layers+1, len_f), dtype=complex)
@@ -415,10 +415,11 @@ def admittance(parameter_dict):
         v_htt[k+1, :] = a_11_front[k, :] * v_htt[k, :] - a_12_front[k, :] * F_htt[k, :]
         F_htt[k+1, :] = a_21_front[k, :] * v_htt[k, :] - a_22_front[k, :] * F_htt[k, :]
     
-    #h_tt = -v_htt[-1, :]
+    h_tt = -v_htt[-1, :]
+    #h_tt = 1/h_tt
+    #h_tt = 1
     
-    
-    
+    ################# MATLAB CODE COPY FOR REFERENCE
     # %TFJ: for den 3-porten beregne, vha. admittansematrisen over, Strømmer og spenninger dersom en setter V3=1 (Volt)
     # Detr = (1+Y11.*ZIk).*(1+Y22.*ZLp1)-Y21.*ZIk.*Y12.*ZLp1;
     # VI2(k,:)=-(Y13.*(1+Y22.*ZLp1) - Y23.*Y12.*ZLp1)./Detr; 
@@ -436,8 +437,7 @@ def admittance(parameter_dict):
 
     # %Y_sys(lenp+1,k,:) = VI2m(K+1,:);
     # Y_sys(aSizeYm1+1,vPntPiezo(k),:) = -VI2m(K+1,:);
-    
-    h_tt = 1
+    #################
     
     return Y_el, h_tt, f, unit_area
     
@@ -453,12 +453,12 @@ if __name__ == "__main__":
     from transfer_functions import admittance
 
     # Get variables
-    #struct_filename = "struct_0front_0back_air_air.xlsx"
+    struct_filename = "struct_0front_0back_air_air.xlsx"
     #struct_filename = "struct_0front_1back_water_air.xlsx"
     #struct_filename = "struct_0front_3back_water_air.xlsx"
     #struct_filename = "struct_3front_0back_water_air.xlsx"
     #struct_filename = "struct_1front_1back_water_air.xlsx"
-    struct_filename = "struct_3front_1back_water_air.xlsx"
+    #struct_filename = "struct_3front_1back_water_air.xlsx"
     #struct_filename = "testing_3front_3back_air_water.xlsx"
 
     #struct_filename = "struct_2front_1back_water_air.xlsx"
@@ -516,14 +516,14 @@ if __name__ == "__main__":
 
     plt.show()
     
-    # # ==================================
-    # # Plotting transfer functions
-    # # =================================
+    # ==================================
+    # Plotting transfer functions
+    # =================================
     
-    # fig, ax = plt.subplots()
-    # ax.plot(f.flatten(), np.abs(h_tt.flatten()))
-    # ax.set_xlabel('Frequency (MHz)')
-    # ax.set_ylabel('|h_tt|')
-    # ax.set_title('Absolute Value of h_tt')
-    # ax.grid(True)
-    # plt.show()
+    fig, ax = plt.subplots()
+    ax.plot(f.flatten(), np.abs(h_tt.flatten()))
+    ax.set_xlabel('Frequency (MHz)')
+    ax.set_ylabel('|h_tt|')
+    ax.set_title('Absolute Value of h_tt')
+    ax.grid(True)
+    plt.show()
