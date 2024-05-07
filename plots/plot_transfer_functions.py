@@ -3,7 +3,7 @@ import matplotlib.cm as cm
 import numpy as np
 from get_parameters import param_dict_extract
 
-def plot_transfer_functions(Y_tt, coupling, f, parameter_dict):
+def plot_transfer_functions(h_tt, coupling, f, parameter_dict):
     
     (
         (
@@ -50,15 +50,46 @@ def plot_transfer_functions(Y_tt, coupling, f, parameter_dict):
             q_backing,
         )
     ) = param_dict_extract(parameter_dict)
-        
-    coupling = 1 # temp manually selected value of either 0 or 1
+
+    f = f / 1e6
+    #h_tt = h_tt / 1e6
+
+    # Plot absolute value of H_tt
+    plt.subplot(2, 1, 1)
+    plt.semilogy(f, np.abs(h_tt))
+    plt.ylabel('|H_tt|')
+    plt.title('Transfer Function')
+
+    # Plot phase of H_tt
+    plt.subplot(2, 1, 2)
+    plt.plot(f, np.angle(h_tt, deg=True))
+    plt.xlabel('Frequency [MHz]')
+    plt.ylabel('Phase (degrees)')
     
-    H_tt = np.zeros((1, len_f))
+    ax = plt.gca()  # Define ax variable
+    ax.set_ylim(-90, 90)
+    ax.set_yticks(range(-90, 91, 30))
+
+    # Add major and minor x-axis grid lines for the first subplot
+    ax = plt.subplot(2, 1, 1)
+    ax.xaxis.grid(True, which='both', linestyle='-', linewidth=0.5)
+    ax.xaxis.grid(True, which='minor', linestyle=':', linewidth=0.5)
+    ax.xaxis.grid(True, which='major', linestyle='-', linewidth=0.5)
+    ax.yaxis.grid(True, which='both', linestyle='-', linewidth=0.5)
+    ax.yaxis.grid(True, which='minor', linestyle=':', linewidth=0.5)
+    ax.yaxis.grid(True, which='major', linestyle='-', linewidth=0.5)
+
+    # Add major and minor x-axis grid lines for the second subplot
+    ax = plt.subplot(2, 1, 2)
+    ax.xaxis.grid(True, which='both', linestyle='-', linewidth=0.5)
+    ax.xaxis.grid(True, which='minor', linestyle=':', linewidth=0.5)
+    ax.xaxis.grid(True, which='major', linestyle='-', linewidth=0.5)
+    ax.yaxis.grid(True, which='both', linestyle='-', linewidth=0.5)
+    ax.yaxis.grid(True, which='minor', linestyle=':', linewidth=0.5)
+    ax.yaxis.grid(True, which='major', linestyle='-', linewidth=0.5)
+
+    plt.tight_layout()
+
+    # Show the plot
+    plt.show()
     
-    if coupling == 1:
-        
-        H_tt = H_tt
-    
-    else:
-        pass
-        #H_tt = comp_Htt_layer(sXtrans_data).' # = H_tt ??

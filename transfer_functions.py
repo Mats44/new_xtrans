@@ -416,8 +416,6 @@ def admittance(parameter_dict):
         F_htt[k+1, :] = a_21_front[k, :] * v_htt[k, :] - a_22_front[k, :] * F_htt[k, :]
     
     h_tt = -v_htt[-1, :]
-    #h_tt = 1/h_tt
-    #h_tt = 1
     
     ################# MATLAB CODE COPY FOR REFERENCE
     # %TFJ: for den 3-porten beregne, vha. admittansematrisen over, Strømmer og spenninger dersom en setter V3=1 (Volt)
