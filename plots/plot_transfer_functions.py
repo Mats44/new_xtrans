@@ -66,7 +66,7 @@ def plot_transfer_functions(h_tt, coupling, f, parameter_dict):
     plt.xlabel('Frequency [MHz]')
     plt.ylabel('Phase (degrees)')
     
-    ax = plt.gca()  # Define ax variable
+    ax = plt.gca() # Define ax variable
     ax.set_ylim(-90, 90)
     ax.set_yticks(range(-90, 91, 30))
 
