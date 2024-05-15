@@ -50,3 +50,4 @@ for i, impedance in enumerate(impedances, start=1):
 # zl = 0.000415*1e6
 # test = (zp**(1/3) * zl**(2/3)) /1e6
 # print(test)
+# %%
