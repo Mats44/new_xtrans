@@ -40,7 +40,8 @@ def extract_xtrans_mech_imp(load_to_backing_path, backing_to_load_path):
 def extract_electrical_imp(z_el_path):
     xtrans_z_el = scipy.io.loadmat(z_el_path)
     
-    xtrans_z_el = xtrans_z_el['Z_i']
+    #xtrans_z_el = xtrans_z_el['Z_i']
+    xtrans_z_el = xtrans_z_el['zi']
     xtrans_z_el = xtrans_z_el.T
     
     return xtrans_z_el
@@ -237,38 +238,38 @@ if __name__ == "__main__":
     ### MATLAB structures ###
     xtrans_param_path = 'parameters/matlab/xtrans_0front_0back_air_air.mat'
 
-    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_0front_0back_air_air.mat'
-    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_0front_0back_air_air.mat'
+    # load_to_backing_path = 'parameters/matlab/z_LoadToBacking_0front_0back_air_air.mat'
+    # backing_to_load_path = 'parameters/matlab/z_backingToLoad_0front_0back_air_air.mat'
     
-    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_0back_air_air.mat'
-    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_0back_air_air.mat'
+    # load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_0back_air_air.mat'
+    # backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_0back_air_air.mat'
     
-    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_0back_water_air.mat'
-    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_0back_water_air.mat'
+    # load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_0back_water_air.mat'
+    # backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_0back_water_air.mat'
     
-    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_1back_water_air.mat'
-    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_1back_water_air.mat'
+    # load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_1back_water_air.mat'
+    # backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_1back_water_air.mat'
     
-    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_2back_water_air.mat'
-    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_2back_water_air.mat'
+    # load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_2back_water_air.mat'
+    # backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_2back_water_air.mat'
     
-    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_2front_0back_air_air.mat'
-    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_2front_0back_air_air.mat'
+    # load_to_backing_path = 'parameters/matlab/z_LoadToBacking_2front_0back_air_air.mat'
+    # backing_to_load_path = 'parameters/matlab/z_backingToLoad_2front_0back_air_air.mat'
     
-    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_2front_0back_water_air.mat'
-    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_2front_0back_water_air.mat'
+    # load_to_backing_path = 'parameters/matlab/z_LoadToBacking_2front_0back_water_air.mat'
+    # backing_to_load_path = 'parameters/matlab/z_backingToLoad_2front_0back_water_air.mat'
     
     load_to_backing_path = 'parameters/matlab/z_LoadToBacking_2front_1back_water_air.mat'
     backing_to_load_path = 'parameters/matlab/z_backingToLoad_2front_1back_water_air.mat'
     
-    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_3front_0back_water_air.mat'
-    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_3front_0back_water_air.mat'
+    # load_to_backing_path = 'parameters/matlab/z_LoadToBacking_3front_0back_water_air.mat'
+    # backing_to_load_path = 'parameters/matlab/z_backingToLoad_3front_0back_water_air.mat'
     
-    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_3front_1back_water_air.mat'
-    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_3front_1back_water_air.mat'
+    # load_to_backing_path = 'parameters/matlab/z_LoadToBacking_3front_1back_water_air.mat'
+    # backing_to_load_path = 'parameters/matlab/z_backingToLoad_3front_1back_water_air.mat'
     
-    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_3front_3back_water_air.mat'
-    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_3front_3back_water_air.mat'
+    # load_to_backing_path = 'parameters/matlab/z_LoadToBacking_3front_3back_water_air.mat'
+    # backing_to_load_path = 'parameters/matlab/z_backingToLoad_3front_3back_water_air.mat'
     
     
     
@@ -346,5 +347,5 @@ if __name__ == "__main__":
     f = parameter_dict['f']
 
     #plot_mechanical_impedance(xtrans_z_load_to_backing, xtrans_z_backing_to_load, z_load_to_backing, z_backing_to_load, f) #only plots xtrans variables right now
-    #plot_mechanical_impedance_combined(xtrans_z_load_to_backing, xtrans_z_backing_to_load, z_load_to_backing, z_backing_to_load, f)
-    plot_electrical_impedance(xtrans_z_el, Y_el, f_el)
+    plot_mechanical_impedance_combined(xtrans_z_load_to_backing, xtrans_z_backing_to_load, z_load_to_backing, z_backing_to_load, f)
+    #plot_electrical_impedance(xtrans_z_el, Y_el, f_el)

@@ -30,7 +30,7 @@ def get_parameters(filename):
     # f = np.linspace(f_min, f_max, 1901, endpoint=True)
     df = 0.01e6  # The step size
     f_min = df
-    #f_min = 1e6
+    f_min = 1e6 #uncomment to plot transfer function in testing functions
     f_max = 20e6 
     f = np.arange(f_min, f_max + df, df)
     
