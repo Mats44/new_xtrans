@@ -246,37 +246,70 @@ if __name__ == "__main__":
     #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_0back_water_air.mat'
     #backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_0back_water_air.mat'
     
-    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_0front_1back_water_air.mat'
-    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_0front_1back_water_air.mat'
+    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_1back_water_air.mat'
+    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_1back_water_air.mat'
     
-    load_to_backing_path = 'parameters/matlab/z_LoadToBacking_3front_1back_water_air.mat'
-    backing_to_load_path = 'parameters/matlab/z_backingToLoad_3front_1back_water_air.mat'
+    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_1front_2back_water_air.mat'
+    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_1front_2back_water_air.mat'
     
-    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_0front_3back_water_air.mat'
-    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_0front_3back_water_air.mat'
+    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_2front_0back_air_air.mat'
+    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_2front_0back_air_air.mat'
+    
+    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_2front_0back_water_air.mat'
+    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_2front_0back_water_air.mat'
+    
+    load_to_backing_path = 'parameters/matlab/z_LoadToBacking_2front_1back_water_air.mat'
+    backing_to_load_path = 'parameters/matlab/z_backingToLoad_2front_1back_water_air.mat'
+    
+    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_3front_0back_water_air.mat'
+    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_3front_0back_water_air.mat'
+    
+    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_3front_1back_water_air.mat'
+    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_3front_1back_water_air.mat'
     
     #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_3front_3back_water_air.mat'
     #backing_to_load_path = 'parameters/matlab/z_backingToLoad_3front_3back_water_air.mat'
     
+    
+    
+    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_0front_1back_water_air.mat'
+    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_0front_1back_water_air.mat'
+    #load_to_backing_path = 'parameters/matlab/z_LoadToBacking_0front_3back_water_air.mat'
+    #backing_to_load_path = 'parameters/matlab/z_backingToLoad_0front_3back_water_air.mat'
+    
+
 
     #z_el_path = 'parameters/matlab/Zel_0front_0back_air_air.mat'
-    #z_el_path = 'parameters/matlab/Zel_0front_1back_water_air.mat'
+    #z_el_path = 'parameters/matlab/Zel_1front_0back_air_air.mat'
     #z_el_path = 'parameters/matlab/Zel_1front_0back_water_air.mat'
-    z_el_path = 'parameters/matlab/Zel_3front_1back_water_air.mat'
-    #z_el_path = 'parameters/matlab/Zel_3front_3back_water_air.mat'
     #z_el_path = 'parameters/matlab/Zel_1front_1back_water_air.mat'
+    #z_el_path = 'parameters/matlab/Zel_1front_2back_water_air.mat'
+    #z_el_path = 'parameters/matlab/Zel_2front_0back_air_air.mat'
+    #z_el_path = 'parameters/matlab/Zel_2front_0back_water_air.mat'
+    z_el_path = 'parameters/matlab/Zel_2front_1back_water_air.mat'
     #z_el_path = 'parameters/matlab/Zel_3front_0back_water_air.mat'
+    #z_el_path = 'parameters/matlab/Zel_3front_1back_water_air.mat'
+    #z_el_path = 'parameters/matlab/Zel_3front_3back_water_air.mat'
+    
     #z_el_path = 'parameters/matlab/Zel_0front_3back_water_air.mat'
+    #z_el_path = 'parameters/matlab/Zel_0front_1back_water_air.mat'
+
 
     ### Python structures ###
     #struct_filename = "struct_0front_0back_air_air.xlsx"
     #struct_filename = "struct_1front_0back_air_air.xlsx"
     #struct_filename = "struct_1front_0back_air_water.xlsx"
-    #struct_filename = "struct_0front_1back_water_air.xlsx"
-    struct_filename = "struct_3front_1back_water_air.xlsx"
-    #struct_filename = "struct_0front_3back_water_air.xlsx"
+    #struct_filename = "struct_1front_1back_water_air.xlsx"
+    #struct_filename = "struct_1front_2back_water_air.xlsx"
+    #struct_filename = "struct_2front_0back_air_air.xlsx"
+    #struct_filename = "struct_2front_0back_water_air.xlsx"
+    struct_filename = "struct_2front_1back_water_air.xlsx"
+    #struct_filename = "struct_3front_0back_water_air.xlsx"
+    #struct_filename = "struct_3front_1back_water_air.xlsx"    
     #struct_filename = "struct_3front_3back_water_air.xlsx"
 
+    #struct_filename = "struct_0front_1back_water_air.xlsx"
+    #struct_filename = "struct_0front_3back_water_air.xlsx"
 
 
     ### Extract sXtransParams data ###

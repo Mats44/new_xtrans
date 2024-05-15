@@ -450,17 +450,21 @@ if __name__ == "__main__":
     from mechanical_impedance import mechanical_impedance
     from transfer_functions import admittance
 
-    # Get variables
-    struct_filename = "struct_0front_0back_air_air.xlsx"
+    #### Get variables ####
+    #struct_filename = "struct_0front_0back_air_air.xlsx"
+    #struct_filename = "struct_1front_0back_air_air.xlsx"
+    #struct_filename = "struct_1front_0back_air_water.xlsx"
+    #struct_filename = "struct_1front_1back_water_air.xlsx"
+    #struct_filename = "struct_1front_2back_water_air.xlsx"
+    #struct_filename = "struct_2front_0back_air_air.xlsx"
+    #struct_filename = "struct_2front_0back_water_air.xlsx"
+    struct_filename = "struct_2front_1back_water_air.xlsx"
+    #struct_filename = "struct_3front_0back_water_air.xlsx"
+    #struct_filename = "struct_3front_1back_water_air.xlsx"    
+    #struct_filename = "struct_3front_3back_water_air.xlsx"
+
     #struct_filename = "struct_0front_1back_water_air.xlsx"
     #struct_filename = "struct_0front_3back_water_air.xlsx"
-    #struct_filename = "struct_3front_0back_water_air.xlsx"
-    #struct_filename = "struct_1front_1back_water_air.xlsx"
-    #struct_filename = "struct_3front_1back_water_air.xlsx"
-    #struct_filename = "testing_3front_3back_air_water.xlsx"
-
-    #struct_filename = "struct_2front_1back_water_air.xlsx"
-    #struct_filename = "struct_1front_2back_water_air.xlsx"
 
     
     materials_data, parameter_dict = get_parameters(struct_filename)
